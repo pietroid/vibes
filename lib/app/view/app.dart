@@ -16,7 +16,10 @@ class App extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(),
+      ),
     );
   }
 }
