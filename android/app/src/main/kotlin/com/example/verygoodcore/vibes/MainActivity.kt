@@ -1,4 +1,4 @@
-package com.example.verygoodcore.vibes
+package dev.pietroid.vibes
 
 import io.flutter.embedding.android.FlutterActivity
 
