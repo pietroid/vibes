@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vibes/elements/oscillating_builder.dart';
 
 class ManagerContent extends StatelessWidget {
@@ -19,19 +20,23 @@ class ManagerContent extends StatelessWidget {
         children: [
           FeatureButton(
             content: const Icon(
-              Icons.sentiment_satisfied_alt_rounded,
-              size: 32,
-            ),
-            label: 'Mood',
-            onTap: () {},
-          ),
-          FeatureButton(
-            content: const Icon(
               Icons.spa,
               size: 32,
             ),
             label: 'Relax',
-            onTap: () {},
+            onTap: () {
+              context.push('/relax');
+            },
+          ),
+          FeatureButton(
+            content: const Icon(
+              Icons.sentiment_satisfied_alt_rounded,
+              size: 32,
+            ),
+            label: 'Mood',
+            onTap: () {
+              //context.go('/mood');
+            },
           ),
           FeatureButton(
             content: const Icon(
@@ -93,7 +98,7 @@ class _FeatureButtonState extends State<FeatureButton> {
                       cornerSmoothing: 1,
                     ),
                     side: const BorderSide(
-                      color: Color.fromARGB(133, 172, 214, 175),
+                      color: Color.fromARGB(133, 235, 255, 249),
                     ),
                   ),
                 ),
