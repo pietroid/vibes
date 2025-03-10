@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:vibes/manager/view/manager_screen.dart';
 import 'package:vibes/relax/view/relax_screen.dart';
+import 'package:vibes/venus/view/venus_screen.dart';
 
 class AppRouter {
   GoRouter get router => GoRouter(
@@ -12,6 +13,10 @@ class AppRouter {
           GoRoute(
             path: '/relax',
             builder: (context, state) => const RelaxScreen(),
+          ),
+          GoRoute(
+            path: '/venus',
+            builder: (context, state) => const VenusScreen(),
           ),
         ],
       );

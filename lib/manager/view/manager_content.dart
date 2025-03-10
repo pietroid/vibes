@@ -20,6 +20,16 @@ class ManagerContent extends StatelessWidget {
         children: [
           FeatureButton(
             content: const Icon(
+              Icons.female,
+              size: 32,
+            ),
+            label: 'Venus',
+            onTap: () {
+              context.push('/venus');
+            },
+          ),
+          FeatureButton(
+            content: const Icon(
               Icons.spa,
               size: 32,
             ),
