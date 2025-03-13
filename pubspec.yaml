@@ -30,5 +30,5 @@ flutter:
   uses-material-design: true
   generate: true
 
-assets:
-  - assets/icon
+  assets:
+    - assets/icon/rose.png

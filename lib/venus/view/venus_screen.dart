@@ -12,9 +12,13 @@ class VenusScreen extends StatefulWidget {
 }
 
 class _VenusScreenState extends State<VenusScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: totalTimeOfAnimationInSeconds),
+    vsync: this,
+  );
+  late final AnimationController _roseController = AnimationController(
+    duration: const Duration(seconds: finalIntervalInSeconds),
     vsync: this,
   );
 
@@ -26,6 +30,11 @@ class _VenusScreenState extends State<VenusScreen>
         const Duration(seconds: startIntervalInSeconds),
       );
       _controller.forward();
+      await Future.delayed(
+        const Duration(
+            seconds: totalTimeOfAnimationInSeconds - finalIntervalInSeconds),
+      );
+      _roseController.forward();
     });
   }
 
@@ -39,19 +48,32 @@ class _VenusScreenState extends State<VenusScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-      body: Center(
-        child: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, state) => CustomPaint(
-            size: Size(
-              MediaQuery.of(context).size.width - 100,
-              MediaQuery.of(context).size.height - 100,
-            ),
-            painter: VenusPainter(
-              timeFraction: _controller.value,
+      body: Stack(
+        children: [
+          Center(
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, state) => CustomPaint(
+                size: Size(
+                  MediaQuery.of(context).size.width - 100,
+                  MediaQuery.of(context).size.height - 100,
+                ),
+                painter: VenusPainter(
+                  timeFraction: _controller.value,
+                ),
+              ),
             ),
           ),
-        ),
+          Center(
+            child: Image.asset(
+              opacity: _roseController,
+              'assets/icon/rose.png',
+              width: MediaQuery.of(context).size.width * 0.2,
+              height: MediaQuery.of(context).size.width * 0.2,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -59,8 +81,9 @@ class _VenusScreenState extends State<VenusScreen>
 
 const venusToSunDistance = 67;
 const earthToSunDistance = 93;
-const totalTimeOfAnimationInSeconds = 20;
+const totalTimeOfAnimationInSeconds = 15;
 const startIntervalInSeconds = 2;
+const int finalIntervalInSeconds = 1;
 
 class VenusPainter extends CustomPainter {
   const VenusPainter({
@@ -112,31 +135,24 @@ class VenusPainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..color = const Color.fromRGBO(88, 110, 255, 1).withOpacity(planetsAlpha);
     // draw the earth
-    canvas.drawCircle(earthCenter, 5, earthPaint);
+    canvas.drawCircle(earthCenter, 15, earthPaint);
 
     final sunPaint = Paint()
       ..style = PaintingStyle.fill
       ..color =
           const Color.fromARGB(255, 252, 255, 105).withOpacity(planetsAlpha);
     //draw the sun
-    canvas.drawCircle(sunCenter, 10, sunPaint);
-
-    final venusPaint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = Colors.white.withOpacity(planetsAlpha);
-
-    // draw venus
-    canvas.drawCircle(venusCenter, 3, venusPaint);
+    canvas.drawCircle(sunCenter, 30, sunPaint);
 
     // draw orbit
     final orbitPaint = Paint()
-      ..strokeWidth = 2
+      ..strokeWidth = 12
       ..style = PaintingStyle.stroke
-      ..color = const Color.fromARGB(255, 110, 0, 0);
+      ..color = const Color.fromARGB(255, 193, 16, 16);
     final orbitPath = Path();
     const thetaIncrement = 0.01;
 
-    for (var i = 0; i <= theta / thetaIncrement; i++) {
+    for (var i = 0; i <= (theta + 0.01) / thetaIncrement; i++) {
       final interpolatedTheta = i * thetaIncrement;
       final interpolatedSunCenter = earthCenter +
           Offset(
@@ -164,6 +180,13 @@ class VenusPainter extends CustomPainter {
     }
 
     canvas.drawPath(orbitPath, orbitPaint);
+
+    final venusPaint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = Colors.white.withOpacity(planetsAlpha);
+
+    // draw venus
+    canvas.drawCircle(venusCenter, 12, venusPaint);
   }
 
   @override
